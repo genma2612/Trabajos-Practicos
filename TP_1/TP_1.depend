@@ -1,0 +1,29 @@
+# depslib dependency file v1.0
+1523555351 source:d:\genma\documents\apuntes y bibliografia utn\github\tp_1\funciones.c
+	<stdio.h>
+	"Funciones.h"
+
+1523556086 d:\genma\documents\apuntes y bibliografia utn\github\tp_1\funciones.h
+
+1523557836 source:d:\genma\documents\apuntes y bibliografia utn\github\tp_1\main.c
+	<stdio.h>
+	<stdlib.h>
+	"operaciones.h"
+
+1523557253 d:\genma\documents\apuntes y bibliografia utn\github\tp_1\operaciones.h
+
+1523557641 source:d:\genma\documents\apuntes y bibliografia utn\github\tp_1\operaciones.c
+	<stdio.h>
+	"operaciones.h"
+
+1523570620 source:d:\genma\documents\apuntes y bibliografia utn\github\trabajos practicos\tp_1\main.c
+	<stdio.h>
+	<stdlib.h>
+	"operaciones.h"
+
+1523569969 d:\genma\documents\apuntes y bibliografia utn\github\trabajos practicos\tp_1\operaciones.h
+
+1523570457 source:d:\genma\documents\apuntes y bibliografia utn\github\trabajos practicos\tp_1\operaciones.c
+	<stdio.h>
+	"operaciones.h"
+
