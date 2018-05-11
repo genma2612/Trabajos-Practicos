@@ -1,0 +1,37 @@
+# depslib dependency file v1.0
+1524876362 source:d:\genma\descargas\tp_2_cascara\funciones.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"funciones.h"
+
+1524875357 d:\genma\descargas\tp_2_cascara\funciones.h
+
+1524874339 source:d:\genma\descargas\tp_2_cascara\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+
+1526068380 source:d:\genma\documents\apuntes y bibliografia utn\github\trabajos practicos\tp_2\funciones.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"funciones.h"
+	"tools.h"
+
+1526065333 d:\genma\documents\apuntes y bibliografia utn\github\trabajos practicos\tp_2\funciones.h
+
+1526067561 source:d:\genma\documents\apuntes y bibliografia utn\github\trabajos practicos\tp_2\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+	"tools.h"
+
+1526061278 d:\genma\documents\apuntes y bibliografia utn\github\trabajos practicos\tp_2\tools.h
+
+1525999541 source:d:\genma\documents\apuntes y bibliografia utn\github\trabajos practicos\tp_2\tools.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"tools.h"
+
