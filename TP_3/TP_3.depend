@@ -1,0 +1,24 @@
+# depslib dependency file v1.0
+1527722469 source:d:\genma\documents\apuntes y bibliografia utn\github\tp3\tp_3\tools.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"tools.h"
+
+1527723109 d:\genma\documents\apuntes y bibliografia utn\github\tp3\tp_3\tools.h
+
+1527875962 source:d:\genma\documents\apuntes y bibliografia utn\github\tp3\tp_3\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+	"tools.h"
+
+1527874856 d:\genma\documents\apuntes y bibliografia utn\github\tp3\tp_3\funciones.h
+
+1527876613 source:d:\genma\documents\apuntes y bibliografia utn\github\tp3\tp_3\funciones.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"funciones.h"
+	"tools.h"
+
