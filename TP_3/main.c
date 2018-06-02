@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include "funciones.h"
 #include "tools.h"
-
-#define PELICULAS_CANTIDAD 9
+#define PELICULAS_CANTIDAD 30
 
 int main()
 {

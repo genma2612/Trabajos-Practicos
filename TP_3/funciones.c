@@ -1,22 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "funciones.h"
 #include "tools.h"
-
-#define PELICULAS_CANTIDAD 9
+#define PELICULAS_CANTIDAD 30
 
 
 int agregarPelicula(EMovie* pLista, int cantidad)
 {
     char portadaGenerica[]= {"https://k62.kn3.net/158083771.jpg"};
-    char titulo[50];
-    char genero[20];
-    int duracion;
-    char descripcion[512];
-    int puntaje;
-    char linkImagen[256];
+    EMovie peliculaAuxiliar;
     int indice;
     int retorno=-1;
     int auxiliar;
@@ -25,18 +18,20 @@ int agregarPelicula(EMovie* pLista, int cantidad)
     {
         return retorno;
     }
-    ingresarStringValidaPass("Ingrese el nombre de la pelicula (max.50):\n", "Error, ingrese caracteres validos.\n", "El nombre puede contener 50 caracteres max.\n", titulo, 50);
-    ingresarStringValidaPass("Ingrese el genero: (max.20):\n", "Error, ingrese caracteres validos.\n", "El genero puede contener 20 caracteres max.\n", genero, 20);
-    duracion = ingresarIntValido("Ingrese la duracion (de 30 minutos a 210 minutos):\n", "Ingrese solo numeros, en el rango valido (de 30 minutos a 210 minutos):\n", 30, 210);
-    ingresarStringValidaPass("Ingrese una descripcion: (max.512 caracteres):\n", "Error, ingrese caracteres validos.\n", "La descripcion puede contener 512 caracteres max.\n", descripcion, 512);
-    puntaje = ingresarIntValido("Ingrese un puntaje de 0 a 100\n", "Error, ingrese solo numeros. El puntaje debe ser de 0 a 100: \n", 0, 100);
-    ingresarStringValidaURL("Ingrese la URL de la portada (max. 512)\n", "Error, ingrese caracteres validos, sin espacios: (max. 512)\n", "URL demasiado larga, max. 512:\n", linkImagen, 512);
-    auxiliar = strlen(linkImagen);
+    auxiliar = generarIdDisponible(pLista, cantidad);
+    peliculaAuxiliar.idPelicula = auxiliar;
+    ingresarStringValidaPass("Ingrese el nombre de la pelicula (max.50):\n", "Error, ingrese caracteres validos.\n", "El nombre puede contener 50 caracteres max.\n", peliculaAuxiliar.titulo, 50);
+    ingresarStringValidaPass("Ingrese el genero: (max.20):\n", "Error, ingrese caracteres validos.\n", "El genero puede contener 20 caracteres max.\n", peliculaAuxiliar.genero, 20);
+    peliculaAuxiliar.duracion = ingresarIntValido("Ingrese la duracion (de 30 minutos a 210 minutos):\n", "Ingrese solo numeros, en el rango valido (de 30 minutos a 210 minutos):\n", 30, 210);
+    ingresarStringValidaPass("Ingrese una descripcion: (max.512 caracteres):\n", "Error, ingrese caracteres validos.\n", "La descripcion puede contener 512 caracteres max.\n", peliculaAuxiliar.descripcion, 512);
+    peliculaAuxiliar.puntaje = ingresarIntValido("Ingrese un puntaje de 0 a 100\n", "Error, ingrese solo numeros. El puntaje debe ser de 0 a 100: \n", 0, 100);
+    ingresarStringValidaURL("Ingrese la URL de la portada (max. 512)\n", "Error, ingrese caracteres validos, sin espacios: (max. 512)\n", "URL demasiado larga, max. 512:\n", peliculaAuxiliar.linkImagen, 512);
+    auxiliar = strlen(peliculaAuxiliar.linkImagen);
     if(auxiliar==0)
     {
-        strcpy(linkImagen, portadaGenerica);
+        strcpy(peliculaAuxiliar.linkImagen, portadaGenerica);
     }
-    retorno = ingresoEstructura(pLista, cantidad, titulo, genero, duracion, descripcion, puntaje, linkImagen, indice);
+    retorno = ingresoEstructura(pLista, peliculaAuxiliar, indice);
     generarPagina(pLista);
     actualizarArchivo(pLista);
     return retorno;
@@ -170,20 +165,12 @@ int inicializacionPeliculas(EMovie* pLista, int cantidad)
     return retorno;
 }
 
-int ingresoEstructura(EMovie* pLista, int cantidad, char titulo[], char genero[], int duracion, char descripcion[], int puntaje, char linkImagen[], int indice)
+int ingresoEstructura(EMovie* pLista, EMovie peliculaAuxiliar, int indice)
 {
     int retorno=-1;
-    int idAux;
-    if(pLista != NULL && cantidad > 0)
+    if(pLista != NULL && PELICULAS_CANTIDAD > 0)
     {
-        idAux = generarIdDisponible(pLista, cantidad);
-        strcpy((pLista+indice)->titulo,titulo);
-        strcpy((pLista+indice)->genero,genero);
-        (pLista+indice)->duracion = duracion;
-        strcpy((pLista+indice)->descripcion,descripcion);
-        (pLista+indice)->puntaje = puntaje;
-        strcpy((pLista+indice)->linkImagen,linkImagen);
-        (pLista+indice)->idPelicula = idAux;
+        *(pLista+indice) = peliculaAuxiliar;
         (pLista+indice)->estado = 1;
         retorno=0;
     }
@@ -210,15 +197,27 @@ int buscarIndiceDeId(EMovie* pLista, int cantidad, int idABuscar)
 
 void primerHC(EMovie* pLista, int cantidad)
 {
-    ingresoEstructura(pLista, cantidad, "Sweet and Lowdown", "Comedy", 95, "In the 1930s, jazz guitarist Emmet Ray idolizes Django Reinhardt, faces gangsters and falls in love with a mute woman.", 90, "https://ia.media-imdb.com/images/M/MV5BMjE2MzA5MDQ4NV5BMl5BanBnXkFtZTgwNjI4ODQxMDE@._V1_UX182_CR0,0,182,268_AL_.jpg", 0);
-    ingresoEstructura(pLista, cantidad, "Eternal Sunshine of the Spotless Mind", "Sci-Fi", 108, "When their relationship turns sour, a young couple undergoes a medical procedure to have each other erased from their memories.", 90, "https://ia.media-imdb.com/images/M/MV5BMTY4NzcwODg3Nl5BMl5BanBnXkFtZTcwNTEwOTMyMw@@._V1_UX182_CR0,0,182,268_AL_.jpg", 1);
-    ingresoEstructura(pLista, cantidad, "Ghost World","Comedy", 111, "With only the plan of moving in together after high school, two unusually devious friends seek direction in life.", 90, "https://ia.media-imdb.com/images/M/MV5BMTI5MDg2ODA2M15BMl5BanBnXkFtZTYwNDAzMjk2._V1_UX182_CR0,0,182,268_AL_.jpg", 2);
-    ingresoEstructura(pLista, cantidad, "Toy Story", "Comedy", 81, " A cowboy doll is profoundly threatened and jealous when a new spaceman figure supplants him as top toy in a boy's room.", 90, "https://ia.media-imdb.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@._V1_UX182_CR0,0,182,268_AL_.jpg", 3);
-    ingresoEstructura(pLista, cantidad, "Amelie", "Romance", 122, "Amelie is an innocent and naive girl in Paris with her own sense of justice. She decides to help those around her and, along the way, discovers love.", 83, "https://ia.media-imdb.com/images/M/MV5BNDg4NjM1YjMtYmNhZC00MjM0LWFiZmYtNGY1YjA3MzZmODc5XkEyXkFqcGdeQXVyNDk3NzU2MTQ@._V1_UX182_CR0,0,182,268_AL_.jpg", 4);
-    ingresoEstructura(pLista, cantidad, "Fahrenheit 451", "Sci-Fi", 111, "In an oppressive future, a fireman whose duty is to destroy all books begins to question his task.", 90, "https://ia.media-imdb.com/images/M/MV5BMjI3MzI3MjQ2OF5BMl5BanBnXkFtZTgwMTI4ODYxMTE@._V1_UX182_CR0,0,182,268_AL_.jpg", 5);
-    ingresoEstructura(pLista, cantidad, "American Graffiti", "Drama", 95, "A couple of high school grads spend one final night cruising the strip with their buddies before they go off to college.", 90, "https://ia.media-imdb.com/images/M/MV5BMjI5NjM5MjIyNF5BMl5BanBnXkFtZTgwNjg2MTUxMDE@._V1_UX182_CR0,0,182,268_AL_.jpg", 6);
-    ingresoEstructura(pLista, cantidad, "The Karate Kid", "Action", 108, " A martial arts master agrees to teach karate to a bullied teenager. ", 90, "https://ia.media-imdb.com/images/M/MV5BNTkzY2YzNmYtY2ViMS00MThiLWFlYTEtOWQ1OTBiOGEwMTdhXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_UX182_CR0,0,182,268_AL_.jpg", 7);
-    ingresoEstructura(pLista, cantidad, "The Terminator","Sci-Fi", 111, "A seemingly indestructible android is sent from 2029 to 1984 to assassinate a waitress, whose unborn son will lead humanity in a war against the machines, while a soldier from that war is sent to protect her at all costs.", 90, "https://ia.media-imdb.com/images/M/MV5BODE1MDczNTUxOV5BMl5BanBnXkFtZTcwMTA0NDQyNA@@._V1_UX182_CR0,0,182,268_AL_.jpg", 8);
+    int i;
+    EMovie hardCodeo[9];
+    char titulo[9][50]={"Sweet and Lowdown","Buffalo '66","Ghost World","Toy Story","Amelie","Fahrenheit 451","American Graffiti","The Karate Kid","The Terminator"};
+    char genero[9][20]={"Comedy","Drama","Comedy","Comedy","Romance","Sci-Fi","Drama","Action","Sci-Fi"};
+    char descripcion[9][512]={"In the 1930s, jazz guitarist Emmet Ray idolizes Django Reinhardt, faces gangsters and falls in love with a mute woman.","After being released from prison, Billy is set to visit his parents with his wife, whom he does not actually have. This provokes Billy to act out, as he kidnaps a girl and forces her to act as his wife for the visit.","With only the plan of moving in together after high school, two unusually devious friends seek direction in life.","A cowboy doll is profoundly threatened and jealous when a new spaceman figure supplants him as top toy in a boy's room.","Amelie is an innocent and naive girl in Paris with her own sense of justice. She decides to help those around her and, along the way, discovers love.","In an oppressive future, a fireman whose duty is to destroy all books begins to question his task.","A couple of high school grads spend one final night cruising the strip with their buddies before they go off to college.","A martial arts master agrees to teach karate to a bullied teenager.","A seemingly indestructible android is sent from 2029 to 1984 to assassinate a waitress, whose unborn son will lead humanity in a war against the machines, while a soldier from that war is sent to protect her at all costs."};
+    char linkImagen[9][256]={"https://m.media-amazon.com/images/M/MV5BMjE2MzA5MDQ4NV5BMl5BanBnXkFtZTgwNjI4ODQxMDE@._V1_UX182_CR0,0,182,268_AL_.jpg","https://m.media-amazon.com/images/M/MV5BMWJkZDFhOTEtMzc5NS00ZmZjLWJmZDItODAzNzgxZjM4NWFlXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_UX182_CR0,0,182,268_AL_.jpg","https://m.media-amazon.com/images/M/MV5BMTI5MDg2ODA2M15BMl5BanBnXkFtZTYwNDAzMjk2._V1_UX182_CR0,0,182,268_AL_.jpg","https://m.media-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@._V1_UX182_CR0,0,182,268_AL_.jpg","https://m.media-amazon.com/images/M/MV5BNDg4NjM1YjMtYmNhZC00MjM0LWFiZmYtNGY1YjA3MzZmODc5XkEyXkFqcGdeQXVyNDk3NzU2MTQ@._V1_UX182_CR0,0,182,268_AL_.jpg","https://m.media-amazon.com/images/M/MV5BMjI3MzI3MjQ2OF5BMl5BanBnXkFtZTgwMTI4ODYxMTE@._V1_UX182_CR0,0,182,268_AL_.jpg","https://m.media-amazon.com/images/M/MV5BMjI5NjM5MjIyNF5BMl5BanBnXkFtZTgwNjg2MTUxMDE@._V1_UX182_CR0,0,182,268_AL_.jpg","https://m.media-amazon.com/images/M/MV5BNTkzY2YzNmYtY2ViMS00MThiLWFlYTEtOWQ1OTBiOGEwMTdhXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_UX182_CR0,0,182,268_AL_.jpg","https://m.media-amazon.com/images/M/MV5BODE1MDczNTUxOV5BMl5BanBnXkFtZTcwMTA0NDQyNA@@._V1_UX182_CR0,0,182,268_AL_.jpg"};
+    int duracion[9]={95,110,111,81,122,112,110,126,107};
+    int puntaje[9]={73,75,74,83,83,73,75,72,80};
+    int idPelicula[9]={1,2,3,4,5,6,7,8,9};
+
+    for(i=0;i<9;i++)
+    {
+        strcpy(hardCodeo[i].titulo, titulo[i]);
+        strcpy(hardCodeo[i].genero, genero[i]);
+        strcpy(hardCodeo[i].descripcion, descripcion[i]);
+        strcpy(hardCodeo[i].linkImagen, linkImagen[i]);
+        hardCodeo[i].duracion = duracion[i];
+        hardCodeo[i].puntaje = puntaje[i];
+        hardCodeo[i].idPelicula = idPelicula[i];
+        ingresoEstructura(pLista, hardCodeo[i], i);
+    }
 }
 
 int buscarEspacio(EMovie* pLista, int cantidad)
@@ -266,13 +265,13 @@ void mostrarCargados(EMovie* pLista, int cantidad)
     int i;
     if(pLista != NULL && cantidad > 0)
     {
-        printf("TITULO                              GENERO                  ID\n");
-        printf("****************************************************************\n");
+        printf("TITULO                                            GENERO     DURACION     PUNTAJE    ID\
+        \n***************************************************************************************\n");
         for(i=0; i<cantidad; i++)
         {
             if((pLista+i)->estado == 1)
             {
-                printf("%-20.30s %21.20s %19d\n", (pLista+i)->titulo, (pLista+i)->genero, (pLista+i)->idPelicula);
+                printf("%-20.30s %35.20s %10d %10d %8d\n", (pLista+i)->titulo, (pLista+i)->genero, (pLista+i)->duracion, (pLista+i)->puntaje, (pLista+i)->idPelicula);
             }
         }
     }

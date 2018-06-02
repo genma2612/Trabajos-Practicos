@@ -55,18 +55,12 @@ int inicializacionPeliculas(EMovie* pLista, int cantidad);
 /** \brief Ingresa una nueva pelicula.
  *
  * \param pLista EMovie* el puntero al array de peliculas.
- * \param cantidad int array size.
- * \param titulo[] char titulo de la pelicula a ingresar.
- * \param genero[] char genero de la pelicula a ingresar.
- * \param duracion int duracion de la pelicula a ingresar.
- * \param descripcion[] char descripcion de la pelicula a ingresar.
- * \param puntaje int puntaje de la pelicula a ingresar.
- * \param linkImagen[] char link de la portada de la pelicula a ingresar.
+ * \param EMovie peliculaAuxiliar estructura auxiliar con los datos cargados.
  * \param indice int indice de la pelicula a ingresar.
  * \return int
  *
  */
-int ingresoEstructura(EMovie* pLista, int cantidad, char titulo[], char genero[], int duracion, char descripcion[], int puntaje, char linkImagen[], int indice);
+int ingresoEstructura(EMovie* pLista, EMovie peliculaAuxiliar, int indice);
 
 /** \brief Busca una ID en el listado de peliculas.
  *
