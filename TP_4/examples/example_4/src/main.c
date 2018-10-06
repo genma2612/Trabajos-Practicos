@@ -28,6 +28,7 @@
 
 int main(void)
 {
+
         startTesting(1);    //al_newArrayList
         startTesting(2);    //al_add
         startTesting(3);    //al_deleteArrayList
